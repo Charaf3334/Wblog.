@@ -6,6 +6,6 @@ const authRouter  = express.Router()
 
 authRouter.post('/signup', SignUpValidation, signup)
 
-authRouter.post('/signin', SignInValidation,signin)
+authRouter.post('/signin', SignInValidation, signin)
 
 export default authRouter
