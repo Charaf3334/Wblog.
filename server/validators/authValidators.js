@@ -1,25 +1,30 @@
 import Joi from 'joi'
+import emailExists from './isTemp.js'
 
-export const SignUpValidation = (req, res, next) => {
+export const SignUpValidation = async (req, res, next) => {
         
     const SignupSchema = Joi.object({
         firstName: Joi.string().trim().max(50).pattern(/^[A-Za-z]+$/).required().messages({
             'string.pattern.base': 'First name must contain only alphabetic characters',
             'string.empty': 'First name is required',
+            'any.required': 'First name is required',
             'string.max': 'First name must not exceed 50 characters'
         }),
         lastName: Joi.string().trim().max(50).pattern(/^[A-Za-z]+$/).required().messages({
             'string.pattern.base': 'Last name must contain only alphabetic characters',
             'string.empty': 'Last name is required',
+            'any.required': 'Last name is required',
             'string.max': 'Last name must not exceed 50 characters'
         }),
         email: Joi.string().trim().pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).required().messages({
             'string.pattern.base': 'Email format is not valid',
-            'string.empty': 'Email field is required'
+            'string.empty': 'Email field is required',
+            'any.required': 'Email field is required'
         }),
         password: Joi.string().trim().min(8).max(30).required().messages({
             'string.min': 'Password should be atleast 8 characters long',
             'string.empty': 'Password is required',
+            'any.required': 'Password is required',
             'string.max': 'Password should be max 30 characters long',
         })
     })
@@ -40,19 +45,26 @@ export const SignUpValidation = (req, res, next) => {
     }
     
     req.body = value
+
+    const doesEmailExists = await emailExists(req, res)
+    if (!doesEmailExists)
+        return
+
     next()
 }
 
-export const SignInValidation = (req, res, next) => {
+export const SignInValidation = async (req, res, next) => {
     
     const SigninSchema = Joi.object({
         email: Joi.string().trim().pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).required().messages({
             'string.pattern.base': 'Email format is not valid',
-            'string.empty': 'Email field is required'
+            'string.empty': 'Email field is required',
+            'any.required': 'Email field is required',
         }),
         password: Joi.string().trim().min(8).max(30).required().messages({
             'string.min': 'Password should be atleast 8 characters long',
             'string.empty': 'Password is required',
+            'any.required': 'Password is required',
             'string.max': 'Password should be max 30 characters long',
         })
     })
@@ -73,5 +85,10 @@ export const SignInValidation = (req, res, next) => {
     }
     
     req.body = value
+
+    const doesEmailExists = await emailExists(req, res)
+    if (!doesEmailExists)
+        return
+
     next()
 } 

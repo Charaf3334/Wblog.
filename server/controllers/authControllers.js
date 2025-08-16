@@ -5,8 +5,6 @@ import Joi from 'joi'
 export const signup = async (req, res) => {
 
   console.log("In sign up")
-
-  console.log(req.body)
   
   res.status(200).send()
 }

@@ -4,8 +4,8 @@ import { SignInValidation, SignUpValidation } from '../validators/authValidators
 
 const authRouter  = express.Router()
 
-authRouter.post('/signup', SignUpValidation,signup)
+authRouter.post('/signup', SignUpValidation, signup)
 
-authRouter.post('/signin', SignInValidation,signin)
+authRouter.post('/signin', SignInValidation, signin)
 
 export default authRouter
